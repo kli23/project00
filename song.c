@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 struct song_node{
 	char name[100];
@@ -55,6 +56,34 @@ struct song_node * findartist(struct song_node * s, char *a) {
 	return 0;
 }
 
+int listlen(struct song_node * s) {
+	int sum = 0;
+	while (s) {
+		sum++;
+		s = s -> next;
+	}
+	return sum;
+}
+
+struct song_node * randomnode(struct song_node * s) { // needs debugging, multiple calls of randomnode return same node
+	srand( time(NULL) );
+	int x = rand() % listlen(s);
+	int i;
+	for (int i = 0; i < x; i++)
+		s = s->next;
+	return s;
+}
+
+struct song_node * removenode(struct song_node * s, char *n, char *a) {
+	struct song_node *temp = findsong(s, n, a);
+	struct song_node *inc = s;
+	while (s) {
+		if (
+	
+	}
+	
+}
+
 int main() { // temporary to test 
 	struct song_node *s = createnode("505", "Arctic Monkeys");
 	s = insertfront(s, "Passionfruit", "Drake");
@@ -77,4 +106,9 @@ int main() { // temporary to test
 	printnode(d); // no node found
 	printnode(e);
 	printf("\n");
+	printf("%d",listlen(s));
+	a = randomnode(s);
+	printnode(a);
+	b = randomnode(s);
+	printnode(b);
 }
