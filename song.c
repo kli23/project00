@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
 #include "song.h"
 
 int songcmp(struct song_node *a, struct song_node *b) {
@@ -102,8 +98,13 @@ int listlen(struct song_node * s) {
 	return sum;
 }
 
+
+int initialized = 0;
 struct song_node * randomnode(struct song_node * s) { // needs debugging, multiple calls of randomnode return same node
-	srand ( time(NULL) );
+	if (!initialized) {
+		srand( time(NULL) );
+		initialized = 1;
+	}
 	int x;
 	x = rand();
 	printf("%d", x);
@@ -115,23 +116,26 @@ struct song_node * randomnode(struct song_node * s) { // needs debugging, multip
 }
 
 struct song_node * removenode(struct song_node * s, char *n, char *a) {
-	struct song_node *temp = find_node(s, n, a);
+	struct song_node *temp = createnode(n,a);
 	struct song_node *start = s;
-	if (s == temp) {
+	if ( !songcmp(s,temp) ) {
     	start = s->next;
 		free(s);
+		free(temp);
     	return start;
   	}
 	while (s->next) {
-    	if (s->next == temp) {
+    	if ( !songcmp(s->next,temp) ) {
 			free(s->next);
     		s->next = s->next->next;
+			free(temp);
     		return start;
     	}
     	s = s->next;
 	}
   	print_node(s);
-	printf(" not found");
+	printf(" not found\n");
+	free(temp);
 	return start;
 }
 
@@ -156,7 +160,6 @@ int main() { // temporary to test
 	s = insertfront(s, "even flow", "pearl jam");
 	s = insertfront(s, "alive", "pearl jam");
 	s = insertfront(s, "thunderstruck", "ac/dc");
-	s = insertordered(s, "zz", "a");  
 
 	printf("LINKED LIST TESTS\n====================================\n\n");
 	
@@ -177,6 +180,7 @@ int main() { // temporary to test
 	print_node(b);
 	printf("\n====================================\n\n");
 
+
 	printf("Testing songcmp (helper function):\n");
 	printf("Comparing [pearl jam: even flow] to [pearl jam: even flow]\n\t");
 	printf("%d\n", songcmp(s->next->next,s->next->next));
@@ -188,6 +192,7 @@ int main() { // temporary to test
 	printf("%d\n", songcmp(s->next->next,s->next->next->next->next));
 	printf("\n====================================\n\n");
 
+	
 	printf("Testing random:\n");
 	print_node(randomnode(s));
 	print_node(randomnode(s));
@@ -197,8 +202,17 @@ int main() { // temporary to test
 	printf("\n====================================\n\n");
 
 	printf("Testing remove:\n");
-	printf("Removing [ac/dc: thunderstruck\n\t");
+	printf("Removing [ac/dc: thunderstruck]\n\t");
 	s = removenode(s, "thunderstruck", "ac/dc");
+	print_list(s);
+	printf("\nRemoving [radiohead: street spirit (fade out)]\n\t");
+	s = removenode(s, "street spirit (fade out)", "radiohead");
+	print_list(s);
+	printf("\nRemoving [pearl jam: yellow ledbetter]\n\t");
+	s = removenode(s, "yellow ledbetter", "pearl jam");
+	print_list(s);
+	printf("\nRemoving [pearl jam: yellow ledbetter]\n\t");
+	s = removenode(s, "yellow ledbetter", "pearl jam");
 	print_list(s);
 	printf("\n====================================\n\n");
 	printf("Testing free_list\n");
