@@ -58,13 +58,11 @@ void print_artist(struct song_node **s, char *a) {
     int index = letterindex(c);
     struct song_node * z = findartist_helper(s[index], a);
     printf("%s: ", a);
-    if (z) {
-        while (!strcmp(z->artist,a)) {
-            print_node(z);
-            printf(" ");
-            z = z->next;
-        }
-    }
+    while (z && !strcmp(z->artist,a) ) {
+        print_node(z);
+        printf(" ");
+        z = z->next;  
+    } 
 }
 
 void shuffle(struct song_node **s) {
@@ -72,16 +70,22 @@ void shuffle(struct song_node **s) {
     int i;
     int sum = 0;
     for (i = 0; i < 27; i++)
-        sum += listlen(s[i]);
-    printf("%d",sum);
-    /*int x = (rand() % 5) + 1;
-    int i;
+        sum += listlen(s[i]); // calculates total number of songs
+    int x = (rand() % 5) + 1;  // random number of songs to be printed
+    int sum2;
+    int j;
+    int y;
     for (i = 0; i < x; i++) {
-        x = rand() % 27;
-        print_node(randomnode(s[x]));
+        sum2 = 0;
+        y = rand() % sum + 1; // y is random num from 1 to sum 
+        for (j = 0; j < 27; j++) {
+            sum2 += listlen(s[j]); // increments sum2 until it equals or exceeds y
+            if (sum2 >= y ) break;
+        }
         printf("\n");
+        print_node(randomnode(s[j])); // using the index j, when sum2 became >= y, and prints random node from s[j]
+        
     }
-    */
 }
 
 struct song_node ** delete_song(struct song_node **s, char *n, char *a) {

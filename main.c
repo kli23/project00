@@ -188,9 +188,9 @@ int main() {
     printf("Printing [tame impala]\n");
     print_artist(library, "tame impala");
     printf("\nPrinting [arctic monkeys]\n");
-    //print_artist(library, "arctic monkeys");
-    //printf("\nPrinting [asap rocky]\n");
-    //print_artist(library, "asap rocky");
+    print_artist(library, "arctic monkeys");
+    printf("\nPrinting [asap rocky]\n");
+    print_artist(library, "asap rocky");
     printf("\n====================================\n\n");
     printf("Testing shuffle");
     shuffle(library);
