@@ -64,28 +64,44 @@ void print_list(struct song_node *s) { // prints entire list
 	printf("]");
 }
 
-struct song_node * find_node(struct song_node * s, char *n, char *a) {
+struct song_node * find_node_helper(struct song_node * s, char *n, char *a) {
 	while (s) {
 		if ( !strcmp(s->name,n) && !strcmp(s->artist,a) ) {
-			printf("node found! ");
 			return s;
 		}
 		s = s->next;
 	}
-	printf("node not found");
+	return 0;
+}	
+
+struct song_node * find_node(struct song_node * s, char *n, char *a) {
+	struct song_node *z = find_node_helper(s, n, a);
+	if (!z)
+		printf("node not found");
+	else
+		printf("node found! ");
+	return z;
+}
+
+struct song_node * findartist_helper(struct song_node *s, char *a) {
+
+	while (s) { 
+		if ( !strcmp(s->artist,a) ) {
+			return s;
+		}
+		s = s->next;
+	}
 	return 0;
 }
 
+
 struct song_node * findartist(struct song_node * s, char *a) {
-	while (s) { 
-		if ( !strcmp(s->artist,a) ) {
-			printf("node found!");
-			return s;
-		}
-		s = s->next;
-	}
-	printf("node not found");
-	return 0;
+	struct song_node *z = findartist_helper(s, a);
+	if (z)
+		printf("\n\tartist found! ");
+	else
+		printf("\n\tartist not found");
+	return z;
 }
 
 int listlen(struct song_node * s) {

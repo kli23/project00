@@ -22,7 +22,11 @@ void print_node(struct song_node *s);
 
 void print_list(struct song_node *s);
 
+struct song_node * find_node_helper(struct song_node * s, char *n, char *a);
+
 struct song_node * find_node(struct song_node * s, char *n, char *a);
+
+struct song_node * findartist_helper(struct song_node *s, char *a);
 
 struct song_node * findartist(struct song_node * s, char *a);
 
@@ -34,3 +38,4 @@ struct song_node * removenode(struct song_node * s, char *n, char *a);
 
 struct song_node * free_list (struct song_node * s);
 
+int listlen(struct song_node * s);
