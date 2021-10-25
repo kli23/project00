@@ -9,6 +9,7 @@ struct song_node{  // struct
 	struct song_node *next;
 };
 
+//functions
 int songcmp(struct song_node *a, struct song_node *b);
 
 struct song_node * createnode(char *n, char *a);
